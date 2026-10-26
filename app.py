@@ -85,11 +85,19 @@ st.markdown("""
     h1, h2, h3, p, ul, li { margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; }
     div[data-testid="stMarkdownContainer"] > hr { margin-top: 0.8rem !important; margin-bottom: 1.5rem !important; border-color: rgba(255,255,255,0.12); }
 
-    /* 상단 Stepper (진행 상태 바) */
+    /* 전 페이지 공통 화면 최상단 여백 고정 */
+    .block-container {
+        padding-top: 2.0rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    /* 전 페이지 공통 2 상단 Stepper (프로그래스바) */
     .stepper-wrap {
         display: flex; justify-content: space-between; align-items: center;
         background: rgba(30, 32, 42, 0.85); border: 1px solid rgba(255,255,255,0.1);
-        padding: 14px 28px; border-radius: 14px; margin-bottom: 24px;
+        padding: 10px 24px !important;
+        border-radius: 14px;
+        margin-bottom: 16px !important; /* 프로그래스바 ↔ 안내 카드 사이 여백 */
     }
     .step-item { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #777A8B; }
     .step-item.active { color: #FFFFFF; font-weight: 800; }
@@ -124,11 +132,13 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(255, 56, 92, 0.55) !important; transform: scale(1.01);
     }
 
-    /* 가이드 박스 */
+    /* 전 페이지 공통 가이드 박스 */
     .guide-box {
         background: linear-gradient(135deg, #1E2030 0%, #27293D 100%);
-        padding: 18px 22px; border-left: 5px solid #FF385C; border-radius: 12px;
-        margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        padding: 13px 20px !important;
+        border-left: 5px solid #FF385C; border-radius: 12px;
+        margin-bottom: 16px !important; /* 안내 카드 ↔ 바로 밑 내용 사이 여백 */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .guide-text { color: #FFFFFF; font-size: 16.5px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
 
@@ -1302,12 +1312,13 @@ if st.session_state.page == 'landing':
 # =============================================
 # [PAGE 2] 위치 및 세부 동네 선택 페이지
 # =============================================
+
 elif st.session_state.page == 'borough_map':
     render_stepper(1)
 
-    # 1단계(자치구) 및 2단계(세부 동네) 지도 고정 높이(px)
-    STAGE1_MAP_HEIGHT = 920  
-    STAGE2_MAP_HEIGHT = 920
+    # 지도 사이즈
+    STAGE1_MAP_HEIGHT = 980
+    STAGE2_MAP_HEIGHT = 980
 
     borough_data = {
         "Manhattan": {"color": "#60A5FA", "kr": "맨해튼", "center": [40.7831, -73.9650], "zoom": 12},
@@ -1323,9 +1334,20 @@ elif st.session_state.page == 'borough_map':
     is_hood_selected = (st.session_state.selected_hood != "선택해주세요")
 
     if not is_hood_selected:
-        st.markdown("##### 🗺️ 숙소가 위치한 세부 동네 선택")
+        guide_title = "Step 1. 숙소가 위치한 세부 동네를 지도에서 선택해 주세요."
     else:
-        st.markdown("##### 🗺️ 숙소가 위치한 상세 주소 선택")
+        guide_title = "Step 2. 숙소가 위치한 상세 위치를 지도에서 클릭해 주세요."
+
+    st.markdown(f"""
+        <div class="guide-box">
+            <div class="guide-text">
+                <span style="font-size:20px;">🗺️</span>
+                <div>
+                    <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">{guide_title}</div>
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
     # 상단 자치구 퀵 선택 버튼 바
     b_cols = st.columns(5)
@@ -1351,7 +1373,8 @@ elif st.session_state.page == 'borough_map':
                 sync_url_params()
                 st.rerun()
 
-    st.write("")
+    st.markdown("<div style='margin-top: 6px;'></div>", unsafe_allow_html=True)
+    
     hoods_in_boro = loc_df[loc_df['borough'] == b_name].dropna(subset=['neighbourhood', 'mean_lat', 'mean_lon']) if b_name else pd.DataFrame()
     hood_polygons = get_real_hood_geojson_for_borough(b_name, hoods_in_boro, nyc_hood_geojson)
 
@@ -1902,6 +1925,8 @@ elif st.session_state.page == 'borough_map':
 # ================================================
 # [PAGE 3] 숙소 상세 스펙 & 운영 정책 입력 페이지
 # ================================================
+
+# Step 1, Step 2, Step 3 모두 동일한 상단 높이·간격으로 통일
 elif st.session_state.page == 'detail_step':
     st.markdown("""
     <style>
@@ -1913,6 +1938,13 @@ elif st.session_state.page == 'detail_step':
             -webkit-backdrop-filter: blur(12px) !important;
             border: 1px solid rgba(255, 255, 255, 0.14) !important;
             border-radius: 16px !important;
+        }
+        div[data-testid="stExpander"] {
+            margin-bottom: 10px !important;
+        }
+        div[data-testid="stExpanderDetails"] {
+            padding-top: 8px !important;
+            padding-bottom: 12px !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -1930,7 +1962,7 @@ elif st.session_state.page == 'detail_step':
                 <div class="guide-text">
                     <span style="font-size:20px;">💡</span>
                     <div>
-                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 1. 호스팅 정책 및 룸타입 설정을 설정해 주세요.</div>
+                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 3. 호스팅 정책 및 룸타입 설정을 설정해 주세요.</div>
                     </div>
                 </div>
             </div>
@@ -2104,7 +2136,7 @@ elif st.session_state.page == 'detail_step':
                 <div class="guide-text">
                     <span style="font-size:20px;">💡</span>
                     <div>
-                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 2. 숙소의 스펙 정보를 입력해 주세요.</div>
+                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 4. 숙소의 스펙 정보를 입력해 주세요.</div>
                     </div>
                 </div>
             </div>
@@ -2279,39 +2311,14 @@ elif st.session_state.page == 'detail_step':
     # ----------------------------------------------------------------------
     # [Step 3] 입력 정보 확인 및 즉시 수정
     # ----------------------------------------------------------------------
-    elif st.session_state.input_step == 2:
-        # [핵심] 3개 카드가 모두 펼쳐져도 하단 버튼이 한눈에 보이도록 전체 레이아웃을 위로 당김
-        st.markdown("""
-        <style>
-            .block-container {
-                padding-top: 2.0rem !important;
-                padding-bottom: 1.5rem !important;
-            }
-            .stepper-wrap {
-                padding: 10px 24px !important;
-                margin-bottom: 12px !important;
-            }
-            .guide-box {
-                padding: 13px 20px !important;
-                margin-bottom: 12px !important;
-            }
-            div[data-testid="stExpander"] {
-                margin-bottom: 10px !important;
-            }
-            div[data-testid="stExpanderDetails"] {
-                padding-top: 8px !important;
-                padding-bottom: 12px !important;
-            }
-        </style>
-        """, unsafe_allow_html=True)
 
-        # Step 1, 2와 100% 동일한 폰트 및 구조의 가이드 카드
+    elif st.session_state.input_step == 2:
         st.markdown("""
             <div class="guide-box">
                 <div class="guide-text">
                     <span style="font-size:20px;">🔍</span>
                     <div>
-                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 3. 입력 정보를 확인해 주세요.</div>
+                        <div style="font-size:16.5px; font-weight:800; color:#FFFFFF;">Step 5. 입력 정보를 확인해 주세요.</div>
                     </div>
                 </div>
             </div>
@@ -2850,14 +2857,6 @@ if st.session_state.page == 'prediction_page':
     # [리포트 전용 스타일: 투명도 조절 가이드 및 하단 여백 붙음 방지(box-sizing: border-box) 적용]
     st.markdown("""
     <style>
-        .block-container {
-            padding-top: 1.8rem !important;
-            padding-bottom: 1.5rem !important;
-        }
-        .stepper-wrap {
-            padding: 10px 24px !important;
-            margin-bottom: 14px !important;
-        }
         /* 최상단 메인 리포트 헤더 & 하단 구분선 */
         .report-main-header {
             display: flex;
