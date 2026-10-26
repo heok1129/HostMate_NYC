@@ -1,0 +1,1750 @@
+{
+  "borough_room_medians": {
+    "Bronx": {
+      "Entire home/apt": 119.0,
+      "Hotel room": NaN,
+      "Private room": 67.0,
+      "Shared room": NaN
+    },
+    "Brooklyn": {
+      "Entire home/apt": 163.0,
+      "Hotel room": 135.0,
+      "Private room": 84.0,
+      "Shared room": 103.0
+    },
+    "Manhattan": {
+      "Entire home/apt": 175.0,
+      "Hotel room": 217.0,
+      "Private room": 94.0,
+      "Shared room": 72.0
+    },
+    "Queens": {
+      "Entire home/apt": 140.0,
+      "Hotel room": NaN,
+      "Private room": 75.0,
+      "Shared room": 104.0
+    },
+    "Staten Island": {
+      "Entire home/apt": 119.0,
+      "Hotel room": NaN,
+      "Private room": 75.0,
+      "Shared room": NaN
+    }
+  },
+  "hood_room_medians": {
+    "Bronx_Allerton_Entire home/apt": {
+      "count": 10,
+      "median": 116.5
+    },
+    "Bronx_Allerton_Private room": {
+      "count": 12,
+      "median": 68.0
+    },
+    "Bronx_Baychester_Entire home/apt": {
+      "count": 3,
+      "median": 109.0
+    },
+    "Bronx_Baychester_Private room": {
+      "count": 1,
+      "median": 80.0
+    },
+    "Bronx_Belmont_Entire home/apt": {
+      "count": 6,
+      "median": 95.5
+    },
+    "Bronx_Belmont_Private room": {
+      "count": 7,
+      "median": 82.0
+    },
+    "Bronx_Bronxdale_Entire home/apt": {
+      "count": 2,
+      "median": 146.0
+    },
+    "Bronx_Bronxdale_Private room": {
+      "count": 5,
+      "median": 54.0
+    },
+    "Bronx_Castle Hill_Entire home/apt": {
+      "count": 3,
+      "median": 150.0
+    },
+    "Bronx_Castle Hill_Private room": {
+      "count": 2,
+      "median": 121.5
+    },
+    "Bronx_City Island_Entire home/apt": {
+      "count": 8,
+      "median": 113.0
+    },
+    "Bronx_Claremont Village_Entire home/apt": {
+      "count": 10,
+      "median": 156.0
+    },
+    "Bronx_Claremont Village_Private room": {
+      "count": 18,
+      "median": 62.0
+    },
+    "Bronx_Clason Point_Entire home/apt": {
+      "count": 6,
+      "median": 137.0
+    },
+    "Bronx_Clason Point_Private room": {
+      "count": 5,
+      "median": 57.0
+    },
+    "Bronx_Co-op City_Entire home/apt": {
+      "count": 2,
+      "median": 75.0
+    },
+    "Bronx_Co-op City_Private room": {
+      "count": 3,
+      "median": 41.0
+    },
+    "Bronx_Concourse_Entire home/apt": {
+      "count": 5,
+      "median": 97.0
+    },
+    "Bronx_Concourse_Private room": {
+      "count": 18,
+      "median": 104.0
+    },
+    "Bronx_Concourse Village_Entire home/apt": {
+      "count": 7,
+      "median": 125.0
+    },
+    "Bronx_Concourse Village_Private room": {
+      "count": 11,
+      "median": 81.0
+    },
+    "Bronx_East Morrisania_Private room": {
+      "count": 1,
+      "median": 82.0
+    },
+    "Bronx_Eastchester_Entire home/apt": {
+      "count": 3,
+      "median": 146.0
+    },
+    "Bronx_Eastchester_Private room": {
+      "count": 1,
+      "median": 125.0
+    },
+    "Bronx_Edenwald_Entire home/apt": {
+      "count": 4,
+      "median": 89.5
+    },
+    "Bronx_Edenwald_Private room": {
+      "count": 9,
+      "median": 52.0
+    },
+    "Bronx_Fieldston_Private room": {
+      "count": 4,
+      "median": 69.5
+    },
+    "Bronx_Fordham_Entire home/apt": {
+      "count": 3,
+      "median": 156.0
+    },
+    "Bronx_Fordham_Private room": {
+      "count": 16,
+      "median": 45.5
+    },
+    "Bronx_Highbridge_Entire home/apt": {
+      "count": 3,
+      "median": 78.0
+    },
+    "Bronx_Highbridge_Private room": {
+      "count": 8,
+      "median": 64.0
+    },
+    "Bronx_Hunts Point_Private room": {
+      "count": 13,
+      "median": 50.0
+    },
+    "Bronx_Kingsbridge_Entire home/apt": {
+      "count": 12,
+      "median": 97.0
+    },
+    "Bronx_Kingsbridge_Private room": {
+      "count": 12,
+      "median": 50.0
+    },
+    "Bronx_Longwood_Entire home/apt": {
+      "count": 6,
+      "median": 189.5
+    },
+    "Bronx_Longwood_Private room": {
+      "count": 15,
+      "median": 59.0
+    },
+    "Bronx_Melrose_Entire home/apt": {
+      "count": 5,
+      "median": 87.0
+    },
+    "Bronx_Melrose_Private room": {
+      "count": 10,
+      "median": 92.5
+    },
+    "Bronx_Morris Heights_Entire home/apt": {
+      "count": 2,
+      "median": 112.0
+    },
+    "Bronx_Morris Heights_Private room": {
+      "count": 4,
+      "median": 42.0
+    },
+    "Bronx_Morris Park_Entire home/apt": {
+      "count": 8,
+      "median": 97.5
+    },
+    "Bronx_Morris Park_Private room": {
+      "count": 15,
+      "median": 60.0
+    },
+    "Bronx_Morrisania_Entire home/apt": {
+      "count": 1,
+      "median": 125.0
+    },
+    "Bronx_Morrisania_Private room": {
+      "count": 3,
+      "median": 60.0
+    },
+    "Bronx_Mott Haven_Entire home/apt": {
+      "count": 13,
+      "median": 150.0
+    },
+    "Bronx_Mott Haven_Private room": {
+      "count": 10,
+      "median": 84.0
+    },
+    "Bronx_Mount Eden_Private room": {
+      "count": 3,
+      "median": 95.0
+    },
+    "Bronx_Mount Hope_Entire home/apt": {
+      "count": 5,
+      "median": 81.0
+    },
+    "Bronx_Mount Hope_Private room": {
+      "count": 11,
+      "median": 56.0
+    },
+    "Bronx_North Riverdale_Entire home/apt": {
+      "count": 4,
+      "median": 113.0
+    },
+    "Bronx_North Riverdale_Private room": {
+      "count": 1,
+      "median": 175.0
+    },
+    "Bronx_Norwood_Entire home/apt": {
+      "count": 6,
+      "median": 116.5
+    },
+    "Bronx_Norwood_Private room": {
+      "count": 12,
+      "median": 73.5
+    },
+    "Bronx_Olinville_Entire home/apt": {
+      "count": 1,
+      "median": 121.0
+    },
+    "Bronx_Parkchester_Entire home/apt": {
+      "count": 2,
+      "median": 65.5
+    },
+    "Bronx_Parkchester_Private room": {
+      "count": 6,
+      "median": 90.5
+    },
+    "Bronx_Pelham Bay_Entire home/apt": {
+      "count": 4,
+      "median": 85.5
+    },
+    "Bronx_Pelham Bay_Private room": {
+      "count": 1,
+      "median": 50.0
+    },
+    "Bronx_Pelham Gardens_Entire home/apt": {
+      "count": 9,
+      "median": 120.0
+    },
+    "Bronx_Pelham Gardens_Private room": {
+      "count": 7,
+      "median": 58.0
+    },
+    "Bronx_Port Morris_Entire home/apt": {
+      "count": 4,
+      "median": 120.0
+    },
+    "Bronx_Port Morris_Private room": {
+      "count": 4,
+      "median": 66.0
+    },
+    "Bronx_Riverdale_Entire home/apt": {
+      "count": 1,
+      "median": 178.0
+    },
+    "Bronx_Schuylerville_Entire home/apt": {
+      "count": 2,
+      "median": 101.5
+    },
+    "Bronx_Schuylerville_Private room": {
+      "count": 6,
+      "median": 82.0
+    },
+    "Bronx_Soundview_Entire home/apt": {
+      "count": 3,
+      "median": 254.0
+    },
+    "Bronx_Soundview_Private room": {
+      "count": 5,
+      "median": 39.0
+    },
+    "Bronx_Spuyten Duyvil_Entire home/apt": {
+      "count": 1,
+      "median": 204.0
+    },
+    "Bronx_Throgs Neck_Entire home/apt": {
+      "count": 7,
+      "median": 157.0
+    },
+    "Bronx_Throgs Neck_Private room": {
+      "count": 12,
+      "median": 79.5
+    },
+    "Bronx_Tremont_Entire home/apt": {
+      "count": 1,
+      "median": 93.0
+    },
+    "Bronx_Tremont_Private room": {
+      "count": 4,
+      "median": 112.0
+    },
+    "Bronx_Unionport_Entire home/apt": {
+      "count": 6,
+      "median": 135.5
+    },
+    "Bronx_Unionport_Private room": {
+      "count": 4,
+      "median": 154.0
+    },
+    "Bronx_University Heights_Entire home/apt": {
+      "count": 2,
+      "median": 169.5
+    },
+    "Bronx_University Heights_Private room": {
+      "count": 1,
+      "median": 45.0
+    },
+    "Bronx_Van Nest_Entire home/apt": {
+      "count": 5,
+      "median": 135.0
+    },
+    "Bronx_Van Nest_Private room": {
+      "count": 2,
+      "median": 101.0
+    },
+    "Bronx_Wakefield_Entire home/apt": {
+      "count": 10,
+      "median": 116.0
+    },
+    "Bronx_Wakefield_Private room": {
+      "count": 24,
+      "median": 66.0
+    },
+    "Bronx_West Farms_Entire home/apt": {
+      "count": 1,
+      "median": 91.0
+    },
+    "Bronx_Westchester Square_Entire home/apt": {
+      "count": 3,
+      "median": 149.0
+    },
+    "Bronx_Westchester Square_Private room": {
+      "count": 3,
+      "median": 49.0
+    },
+    "Bronx_Williamsbridge_Entire home/apt": {
+      "count": 10,
+      "median": 99.5
+    },
+    "Bronx_Williamsbridge_Private room": {
+      "count": 11,
+      "median": 62.0
+    },
+    "Bronx_Woodlawn_Entire home/apt": {
+      "count": 4,
+      "median": 117.0
+    },
+    "Bronx_Woodlawn_Private room": {
+      "count": 1,
+      "median": 80.0
+    },
+    "Brooklyn_Bath Beach_Entire home/apt": {
+      "count": 7,
+      "median": 160.0
+    },
+    "Brooklyn_Bath Beach_Private room": {
+      "count": 6,
+      "median": 71.0
+    },
+    "Brooklyn_Bay Ridge_Entire home/apt": {
+      "count": 16,
+      "median": 146.0
+    },
+    "Brooklyn_Bay Ridge_Private room": {
+      "count": 36,
+      "median": 66.5
+    },
+    "Brooklyn_Bedford-Stuyvesant_Entire home/apt": {
+      "count": 456,
+      "median": 165.5
+    },
+    "Brooklyn_Bedford-Stuyvesant_Private room": {
+      "count": 442,
+      "median": 80.0
+    },
+    "Brooklyn_Bedford-Stuyvesant_Shared room": {
+      "count": 8,
+      "median": 112.5
+    },
+    "Brooklyn_Bensonhurst_Entire home/apt": {
+      "count": 11,
+      "median": 100.0
+    },
+    "Brooklyn_Bensonhurst_Private room": {
+      "count": 10,
+      "median": 69.0
+    },
+    "Brooklyn_Bergen Beach_Entire home/apt": {
+      "count": 5,
+      "median": 214.0
+    },
+    "Brooklyn_Bergen Beach_Private room": {
+      "count": 2,
+      "median": 105.0
+    },
+    "Brooklyn_Boerum Hill_Entire home/apt": {
+      "count": 30,
+      "median": 217.5
+    },
+    "Brooklyn_Boerum Hill_Private room": {
+      "count": 5,
+      "median": 144.0
+    },
+    "Brooklyn_Borough Park_Entire home/apt": {
+      "count": 5,
+      "median": 115.0
+    },
+    "Brooklyn_Borough Park_Private room": {
+      "count": 15,
+      "median": 49.0
+    },
+    "Brooklyn_Borough Park_Shared room": {
+      "count": 1,
+      "median": 40.0
+    },
+    "Brooklyn_Brighton Beach_Entire home/apt": {
+      "count": 12,
+      "median": 156.0
+    },
+    "Brooklyn_Brighton Beach_Private room": {
+      "count": 9,
+      "median": 65.0
+    },
+    "Brooklyn_Brooklyn Heights_Entire home/apt": {
+      "count": 23,
+      "median": 185.0
+    },
+    "Brooklyn_Brooklyn Heights_Private room": {
+      "count": 4,
+      "median": 125.0
+    },
+    "Brooklyn_Brownsville_Entire home/apt": {
+      "count": 17,
+      "median": 123.0
+    },
+    "Brooklyn_Brownsville_Private room": {
+      "count": 24,
+      "median": 69.0
+    },
+    "Brooklyn_Brownsville_Shared room": {
+      "count": 1,
+      "median": 55.0
+    },
+    "Brooklyn_Bushwick_Entire home/apt": {
+      "count": 171,
+      "median": 155.0
+    },
+    "Brooklyn_Bushwick_Private room": {
+      "count": 217,
+      "median": 80.0
+    },
+    "Brooklyn_Canarsie_Entire home/apt": {
+      "count": 75,
+      "median": 144.0
+    },
+    "Brooklyn_Canarsie_Private room": {
+      "count": 50,
+      "median": 94.0
+    },
+    "Brooklyn_Canarsie_Shared room": {
+      "count": 1,
+      "median": 89.0
+    },
+    "Brooklyn_Carroll Gardens_Entire home/apt": {
+      "count": 31,
+      "median": 225.0
+    },
+    "Brooklyn_Carroll Gardens_Private room": {
+      "count": 15,
+      "median": 150.0
+    },
+    "Brooklyn_Clinton Hill_Entire home/apt": {
+      "count": 56,
+      "median": 184.0
+    },
+    "Brooklyn_Clinton Hill_Private room": {
+      "count": 30,
+      "median": 127.5
+    },
+    "Brooklyn_Cobble Hill_Entire home/apt": {
+      "count": 12,
+      "median": 195.5
+    },
+    "Brooklyn_Cobble Hill_Private room": {
+      "count": 3,
+      "median": 225.0
+    },
+    "Brooklyn_Columbia St_Entire home/apt": {
+      "count": 2,
+      "median": 538.5
+    },
+    "Brooklyn_Columbia St_Private room": {
+      "count": 1,
+      "median": 150.0
+    },
+    "Brooklyn_Coney Island_Entire home/apt": {
+      "count": 7,
+      "median": 109.0
+    },
+    "Brooklyn_Coney Island_Private room": {
+      "count": 8,
+      "median": 90.0
+    },
+    "Brooklyn_Crown Heights_Entire home/apt": {
+      "count": 222,
+      "median": 174.0
+    },
+    "Brooklyn_Crown Heights_Private room": {
+      "count": 149,
+      "median": 73.0
+    },
+    "Brooklyn_Crown Heights_Shared room": {
+      "count": 2,
+      "median": 139.0
+    },
+    "Brooklyn_Cypress Hills_Entire home/apt": {
+      "count": 38,
+      "median": 119.0
+    },
+    "Brooklyn_Cypress Hills_Private room": {
+      "count": 63,
+      "median": 55.0
+    },
+    "Brooklyn_DUMBO_Entire home/apt": {
+      "count": 7,
+      "median": 330.0
+    },
+    "Brooklyn_DUMBO_Private room": {
+      "count": 4,
+      "median": 201.0
+    },
+    "Brooklyn_Downtown Brooklyn_Entire home/apt": {
+      "count": 10,
+      "median": 177.5
+    },
+    "Brooklyn_Downtown Brooklyn_Private room": {
+      "count": 4,
+      "median": 142.5
+    },
+    "Brooklyn_Dyker Heights_Entire home/apt": {
+      "count": 4,
+      "median": 150.0
+    },
+    "Brooklyn_Dyker Heights_Private room": {
+      "count": 4,
+      "median": 80.5
+    },
+    "Brooklyn_East Flatbush_Entire home/apt": {
+      "count": 133,
+      "median": 139.0
+    },
+    "Brooklyn_East Flatbush_Private room": {
+      "count": 115,
+      "median": 66.0
+    },
+    "Brooklyn_East New York_Entire home/apt": {
+      "count": 92,
+      "median": 144.5
+    },
+    "Brooklyn_East New York_Private room": {
+      "count": 65,
+      "median": 81.0
+    },
+    "Brooklyn_East New York_Shared room": {
+      "count": 1,
+      "median": 180.0
+    },
+    "Brooklyn_Flatbush_Entire home/apt": {
+      "count": 75,
+      "median": 135.0
+    },
+    "Brooklyn_Flatbush_Private room": {
+      "count": 73,
+      "median": 90.0
+    },
+    "Brooklyn_Flatbush_Shared room": {
+      "count": 1,
+      "median": 37.0
+    },
+    "Brooklyn_Flatlands_Entire home/apt": {
+      "count": 24,
+      "median": 139.0
+    },
+    "Brooklyn_Flatlands_Private room": {
+      "count": 16,
+      "median": 99.0
+    },
+    "Brooklyn_Fort Greene_Entire home/apt": {
+      "count": 73,
+      "median": 181.0
+    },
+    "Brooklyn_Fort Greene_Private room": {
+      "count": 26,
+      "median": 90.0
+    },
+    "Brooklyn_Fort Hamilton_Entire home/apt": {
+      "count": 38,
+      "median": 101.0
+    },
+    "Brooklyn_Fort Hamilton_Private room": {
+      "count": 3,
+      "median": 70.0
+    },
+    "Brooklyn_Gowanus_Entire home/apt": {
+      "count": 42,
+      "median": 222.5
+    },
+    "Brooklyn_Gowanus_Private room": {
+      "count": 10,
+      "median": 116.0
+    },
+    "Brooklyn_Gravesend_Entire home/apt": {
+      "count": 17,
+      "median": 113.0
+    },
+    "Brooklyn_Gravesend_Private room": {
+      "count": 12,
+      "median": 83.0
+    },
+    "Brooklyn_Greenpoint_Entire home/apt": {
+      "count": 90,
+      "median": 227.5
+    },
+    "Brooklyn_Greenpoint_Hotel room": {
+      "count": 1,
+      "median": 135.0
+    },
+    "Brooklyn_Greenpoint_Private room": {
+      "count": 36,
+      "median": 84.0
+    },
+    "Brooklyn_Greenpoint_Shared room": {
+      "count": 1,
+      "median": 32.0
+    },
+    "Brooklyn_Kensington_Entire home/apt": {
+      "count": 11,
+      "median": 86.0
+    },
+    "Brooklyn_Kensington_Private room": {
+      "count": 10,
+      "median": 110.0
+    },
+    "Brooklyn_Manhattan Beach_Entire home/apt": {
+      "count": 2,
+      "median": 137.5
+    },
+    "Brooklyn_Manhattan Beach_Private room": {
+      "count": 3,
+      "median": 54.0
+    },
+    "Brooklyn_Midwood_Entire home/apt": {
+      "count": 15,
+      "median": 115.0
+    },
+    "Brooklyn_Midwood_Private room": {
+      "count": 9,
+      "median": 70.0
+    },
+    "Brooklyn_Mill Basin_Entire home/apt": {
+      "count": 5,
+      "median": 144.0
+    },
+    "Brooklyn_Mill Basin_Private room": {
+      "count": 1,
+      "median": 115.0
+    },
+    "Brooklyn_Navy Yard_Private room": {
+      "count": 1,
+      "median": 75.0
+    },
+    "Brooklyn_Park Slope_Entire home/apt": {
+      "count": 75,
+      "median": 175.0
+    },
+    "Brooklyn_Park Slope_Private room": {
+      "count": 30,
+      "median": 157.5
+    },
+    "Brooklyn_Prospect Heights_Entire home/apt": {
+      "count": 30,
+      "median": 215.0
+    },
+    "Brooklyn_Prospect Heights_Private room": {
+      "count": 19,
+      "median": 99.0
+    },
+    "Brooklyn_Prospect-Lefferts Gardens_Entire home/apt": {
+      "count": 73,
+      "median": 165.0
+    },
+    "Brooklyn_Prospect-Lefferts Gardens_Private room": {
+      "count": 38,
+      "median": 99.0
+    },
+    "Brooklyn_Red Hook_Entire home/apt": {
+      "count": 10,
+      "median": 215.0
+    },
+    "Brooklyn_Red Hook_Private room": {
+      "count": 6,
+      "median": 123.0
+    },
+    "Brooklyn_Sea Gate_Entire home/apt": {
+      "count": 9,
+      "median": 104.0
+    },
+    "Brooklyn_Sea Gate_Private room": {
+      "count": 2,
+      "median": 78.5
+    },
+    "Brooklyn_Sheepshead Bay_Entire home/apt": {
+      "count": 24,
+      "median": 123.0
+    },
+    "Brooklyn_Sheepshead Bay_Private room": {
+      "count": 12,
+      "median": 97.0
+    },
+    "Brooklyn_South Slope_Entire home/apt": {
+      "count": 34,
+      "median": 180.0
+    },
+    "Brooklyn_South Slope_Private room": {
+      "count": 13,
+      "median": 92.0
+    },
+    "Brooklyn_Sunset Park_Entire home/apt": {
+      "count": 48,
+      "median": 135.0
+    },
+    "Brooklyn_Sunset Park_Private room": {
+      "count": 72,
+      "median": 70.0
+    },
+    "Brooklyn_Sunset Park_Shared room": {
+      "count": 1,
+      "median": 195.0
+    },
+    "Brooklyn_Vinegar Hill_Entire home/apt": {
+      "count": 5,
+      "median": 191.0
+    },
+    "Brooklyn_Vinegar Hill_Private room": {
+      "count": 2,
+      "median": 101.0
+    },
+    "Brooklyn_Williamsburg_Entire home/apt": {
+      "count": 273,
+      "median": 189.0
+    },
+    "Brooklyn_Williamsburg_Private room": {
+      "count": 188,
+      "median": 100.0
+    },
+    "Brooklyn_Williamsburg_Shared room": {
+      "count": 2,
+      "median": 165.0
+    },
+    "Brooklyn_Windsor Terrace_Entire home/apt": {
+      "count": 25,
+      "median": 180.0
+    },
+    "Brooklyn_Windsor Terrace_Private room": {
+      "count": 11,
+      "median": 99.0
+    },
+    "Manhattan_Battery Park City_Entire home/apt": {
+      "count": 7,
+      "median": 190.0
+    },
+    "Manhattan_Battery Park City_Private room": {
+      "count": 1,
+      "median": 110.0
+    },
+    "Manhattan_Chelsea_Entire home/apt": {
+      "count": 185,
+      "median": 185.0
+    },
+    "Manhattan_Chelsea_Private room": {
+      "count": 36,
+      "median": 106.5
+    },
+    "Manhattan_Chinatown_Entire home/apt": {
+      "count": 60,
+      "median": 182.5
+    },
+    "Manhattan_Chinatown_Private room": {
+      "count": 30,
+      "median": 102.5
+    },
+    "Manhattan_Civic Center_Entire home/apt": {
+      "count": 3,
+      "median": 259.0
+    },
+    "Manhattan_Civic Center_Private room": {
+      "count": 1,
+      "median": 489.0
+    },
+    "Manhattan_East Harlem_Entire home/apt": {
+      "count": 129,
+      "median": 139.0
+    },
+    "Manhattan_East Harlem_Private room": {
+      "count": 87,
+      "median": 82.0
+    },
+    "Manhattan_East Harlem_Shared room": {
+      "count": 2,
+      "median": 69.0
+    },
+    "Manhattan_East Village_Entire home/apt": {
+      "count": 187,
+      "median": 183.0
+    },
+    "Manhattan_East Village_Private room": {
+      "count": 57,
+      "median": 105.0
+    },
+    "Manhattan_East Village_Shared room": {
+      "count": 1,
+      "median": 449.0
+    },
+    "Manhattan_Financial District_Entire home/apt": {
+      "count": 64,
+      "median": 217.0
+    },
+    "Manhattan_Financial District_Private room": {
+      "count": 12,
+      "median": 158.5
+    },
+    "Manhattan_Flatiron District_Entire home/apt": {
+      "count": 9,
+      "median": 226.0
+    },
+    "Manhattan_Flatiron District_Hotel room": {
+      "count": 1,
+      "median": 256.0
+    },
+    "Manhattan_Flatiron District_Private room": {
+      "count": 6,
+      "median": 174.0
+    },
+    "Manhattan_Gramercy_Entire home/apt": {
+      "count": 61,
+      "median": 145.0
+    },
+    "Manhattan_Gramercy_Private room": {
+      "count": 29,
+      "median": 80.0
+    },
+    "Manhattan_Gramercy_Shared room": {
+      "count": 1,
+      "median": 68.0
+    },
+    "Manhattan_Greenwich Village_Entire home/apt": {
+      "count": 35,
+      "median": 318.0
+    },
+    "Manhattan_Greenwich Village_Private room": {
+      "count": 3,
+      "median": 98.0
+    },
+    "Manhattan_Harlem_Entire home/apt": {
+      "count": 294,
+      "median": 165.0
+    },
+    "Manhattan_Harlem_Private room": {
+      "count": 283,
+      "median": 75.0
+    },
+    "Manhattan_Hell's Kitchen_Entire home/apt": {
+      "count": 362,
+      "median": 150.0
+    },
+    "Manhattan_Hell's Kitchen_Private room": {
+      "count": 91,
+      "median": 129.0
+    },
+    "Manhattan_Hell's Kitchen_Shared room": {
+      "count": 1,
+      "median": 106.0
+    },
+    "Manhattan_Inwood_Entire home/apt": {
+      "count": 21,
+      "median": 120.0
+    },
+    "Manhattan_Inwood_Private room": {
+      "count": 20,
+      "median": 51.0
+    },
+    "Manhattan_Inwood_Shared room": {
+      "count": 1,
+      "median": 183.0
+    },
+    "Manhattan_Kips Bay_Entire home/apt": {
+      "count": 120,
+      "median": 177.5
+    },
+    "Manhattan_Kips Bay_Private room": {
+      "count": 8,
+      "median": 122.5
+    },
+    "Manhattan_Little Italy_Entire home/apt": {
+      "count": 37,
+      "median": 137.0
+    },
+    "Manhattan_Little Italy_Private room": {
+      "count": 2,
+      "median": 129.0
+    },
+    "Manhattan_Lower East Side_Entire home/apt": {
+      "count": 137,
+      "median": 169.0
+    },
+    "Manhattan_Lower East Side_Hotel room": {
+      "count": 1,
+      "median": 369.0
+    },
+    "Manhattan_Lower East Side_Private room": {
+      "count": 37,
+      "median": 109.0
+    },
+    "Manhattan_Marble Hill_Entire home/apt": {
+      "count": 1,
+      "median": 92.0
+    },
+    "Manhattan_Marble Hill_Private room": {
+      "count": 3,
+      "median": 124.0
+    },
+    "Manhattan_Midtown_Entire home/apt": {
+      "count": 275,
+      "median": 201.0
+    },
+    "Manhattan_Midtown_Private room": {
+      "count": 76,
+      "median": 171.5
+    },
+    "Manhattan_Midtown_Shared room": {
+      "count": 1,
+      "median": 76.0
+    },
+    "Manhattan_Morningside Heights_Entire home/apt": {
+      "count": 12,
+      "median": 139.0
+    },
+    "Manhattan_Morningside Heights_Private room": {
+      "count": 17,
+      "median": 85.0
+    },
+    "Manhattan_Murray Hill_Entire home/apt": {
+      "count": 87,
+      "median": 179.0
+    },
+    "Manhattan_Murray Hill_Hotel room": {
+      "count": 1,
+      "median": 160.0
+    },
+    "Manhattan_Murray Hill_Private room": {
+      "count": 4,
+      "median": 192.5
+    },
+    "Manhattan_NoHo_Entire home/apt": {
+      "count": 2,
+      "median": 509.0
+    },
+    "Manhattan_NoHo_Private room": {
+      "count": 1,
+      "median": 235.0
+    },
+    "Manhattan_Nolita_Entire home/apt": {
+      "count": 44,
+      "median": 180.0
+    },
+    "Manhattan_Nolita_Private room": {
+      "count": 3,
+      "median": 114.0
+    },
+    "Manhattan_Roosevelt Island_Entire home/apt": {
+      "count": 4,
+      "median": 260.5
+    },
+    "Manhattan_Roosevelt Island_Private room": {
+      "count": 11,
+      "median": 113.0
+    },
+    "Manhattan_SoHo_Entire home/apt": {
+      "count": 52,
+      "median": 256.0
+    },
+    "Manhattan_SoHo_Private room": {
+      "count": 8,
+      "median": 220.0
+    },
+    "Manhattan_Stuyvesant Town_Entire home/apt": {
+      "count": 9,
+      "median": 150.0
+    },
+    "Manhattan_Stuyvesant Town_Private room": {
+      "count": 3,
+      "median": 93.0
+    },
+    "Manhattan_Theater District_Entire home/apt": {
+      "count": 29,
+      "median": 307.0
+    },
+    "Manhattan_Theater District_Hotel room": {
+      "count": 1,
+      "median": 217.0
+    },
+    "Manhattan_Theater District_Private room": {
+      "count": 37,
+      "median": 182.0
+    },
+    "Manhattan_Tribeca_Entire home/apt": {
+      "count": 15,
+      "median": 332.0
+    },
+    "Manhattan_Tribeca_Private room": {
+      "count": 4,
+      "median": 185.0
+    },
+    "Manhattan_Two Bridges_Entire home/apt": {
+      "count": 4,
+      "median": 152.5
+    },
+    "Manhattan_Two Bridges_Private room": {
+      "count": 4,
+      "median": 71.5
+    },
+    "Manhattan_Upper East Side_Entire home/apt": {
+      "count": 447,
+      "median": 140.0
+    },
+    "Manhattan_Upper East Side_Private room": {
+      "count": 39,
+      "median": 110.0
+    },
+    "Manhattan_Upper East Side_Shared room": {
+      "count": 1,
+      "median": 68.0
+    },
+    "Manhattan_Upper West Side_Entire home/apt": {
+      "count": 283,
+      "median": 181.0
+    },
+    "Manhattan_Upper West Side_Private room": {
+      "count": 88,
+      "median": 100.0
+    },
+    "Manhattan_Upper West Side_Shared room": {
+      "count": 2,
+      "median": 34.0
+    },
+    "Manhattan_Washington Heights_Entire home/apt": {
+      "count": 66,
+      "median": 115.0
+    },
+    "Manhattan_Washington Heights_Hotel room": {
+      "count": 1,
+      "median": 151.0
+    },
+    "Manhattan_Washington Heights_Private room": {
+      "count": 91,
+      "median": 59.0
+    },
+    "Manhattan_West Village_Entire home/apt": {
+      "count": 78,
+      "median": 209.0
+    },
+    "Manhattan_West Village_Private room": {
+      "count": 5,
+      "median": 208.0
+    },
+    "Queens_Arverne_Entire home/apt": {
+      "count": 26,
+      "median": 149.0
+    },
+    "Queens_Arverne_Private room": {
+      "count": 16,
+      "median": 85.0
+    },
+    "Queens_Arverne_Shared room": {
+      "count": 1,
+      "median": 674.0
+    },
+    "Queens_Astoria_Entire home/apt": {
+      "count": 69,
+      "median": 145.0
+    },
+    "Queens_Astoria_Private room": {
+      "count": 134,
+      "median": 72.0
+    },
+    "Queens_Bay Terrace_Private room": {
+      "count": 2,
+      "median": 137.0
+    },
+    "Queens_Bayside_Entire home/apt": {
+      "count": 16,
+      "median": 158.0
+    },
+    "Queens_Bayside_Private room": {
+      "count": 3,
+      "median": 88.0
+    },
+    "Queens_Bayside_Shared room": {
+      "count": 1,
+      "median": 104.0
+    },
+    "Queens_Bayswater_Entire home/apt": {
+      "count": 1,
+      "median": 124.0
+    },
+    "Queens_Bayswater_Private room": {
+      "count": 2,
+      "median": 55.0
+    },
+    "Queens_Belle Harbor_Entire home/apt": {
+      "count": 2,
+      "median": 162.0
+    },
+    "Queens_Belle Harbor_Private room": {
+      "count": 1,
+      "median": 250.0
+    },
+    "Queens_Bellerose_Entire home/apt": {
+      "count": 9,
+      "median": 124.0
+    },
+    "Queens_Bellerose_Private room": {
+      "count": 1,
+      "median": 80.0
+    },
+    "Queens_Breezy Point_Private room": {
+      "count": 4,
+      "median": 135.0
+    },
+    "Queens_Briarwood_Entire home/apt": {
+      "count": 9,
+      "median": 200.0
+    },
+    "Queens_Briarwood_Private room": {
+      "count": 9,
+      "median": 67.0
+    },
+    "Queens_Cambria Heights_Entire home/apt": {
+      "count": 13,
+      "median": 123.0
+    },
+    "Queens_Cambria Heights_Private room": {
+      "count": 3,
+      "median": 90.0
+    },
+    "Queens_College Point_Entire home/apt": {
+      "count": 13,
+      "median": 141.0
+    },
+    "Queens_College Point_Private room": {
+      "count": 11,
+      "median": 89.0
+    },
+    "Queens_Corona_Entire home/apt": {
+      "count": 6,
+      "median": 134.0
+    },
+    "Queens_Corona_Private room": {
+      "count": 16,
+      "median": 84.5
+    },
+    "Queens_Corona_Shared room": {
+      "count": 1,
+      "median": 45.0
+    },
+    "Queens_Ditmars Steinway_Entire home/apt": {
+      "count": 27,
+      "median": 119.0
+    },
+    "Queens_Ditmars Steinway_Private room": {
+      "count": 47,
+      "median": 81.0
+    },
+    "Queens_Douglaston_Entire home/apt": {
+      "count": 2,
+      "median": 122.5
+    },
+    "Queens_Douglaston_Private room": {
+      "count": 1,
+      "median": 39.0
+    },
+    "Queens_East Elmhurst_Entire home/apt": {
+      "count": 57,
+      "median": 130.0
+    },
+    "Queens_East Elmhurst_Private room": {
+      "count": 51,
+      "median": 65.0
+    },
+    "Queens_East Elmhurst_Shared room": {
+      "count": 1,
+      "median": 190.0
+    },
+    "Queens_Edgemere_Entire home/apt": {
+      "count": 4,
+      "median": 141.5
+    },
+    "Queens_Edgemere_Private room": {
+      "count": 3,
+      "median": 90.0
+    },
+    "Queens_Elmhurst_Entire home/apt": {
+      "count": 23,
+      "median": 120.0
+    },
+    "Queens_Elmhurst_Private room": {
+      "count": 47,
+      "median": 53.0
+    },
+    "Queens_Far Rockaway_Entire home/apt": {
+      "count": 13,
+      "median": 150.0
+    },
+    "Queens_Far Rockaway_Private room": {
+      "count": 10,
+      "median": 54.0
+    },
+    "Queens_Flushing_Entire home/apt": {
+      "count": 77,
+      "median": 150.0
+    },
+    "Queens_Flushing_Private room": {
+      "count": 104,
+      "median": 70.0
+    },
+    "Queens_Forest Hills_Entire home/apt": {
+      "count": 24,
+      "median": 136.0
+    },
+    "Queens_Forest Hills_Private room": {
+      "count": 13,
+      "median": 94.0
+    },
+    "Queens_Fresh Meadows_Entire home/apt": {
+      "count": 7,
+      "median": 100.0
+    },
+    "Queens_Fresh Meadows_Private room": {
+      "count": 9,
+      "median": 68.0
+    },
+    "Queens_Fresh Meadows_Shared room": {
+      "count": 1,
+      "median": 109.0
+    },
+    "Queens_Glendale_Entire home/apt": {
+      "count": 21,
+      "median": 139.0
+    },
+    "Queens_Glendale_Private room": {
+      "count": 11,
+      "median": 57.0
+    },
+    "Queens_Hollis_Entire home/apt": {
+      "count": 4,
+      "median": 110.0
+    },
+    "Queens_Hollis_Private room": {
+      "count": 5,
+      "median": 34.0
+    },
+    "Queens_Howard Beach_Entire home/apt": {
+      "count": 7,
+      "median": 122.0
+    },
+    "Queens_Howard Beach_Private room": {
+      "count": 7,
+      "median": 90.0
+    },
+    "Queens_Jackson Heights_Entire home/apt": {
+      "count": 16,
+      "median": 137.5
+    },
+    "Queens_Jackson Heights_Private room": {
+      "count": 36,
+      "median": 56.0
+    },
+    "Queens_Jackson Heights_Shared room": {
+      "count": 2,
+      "median": 52.5
+    },
+    "Queens_Jamaica_Entire home/apt": {
+      "count": 67,
+      "median": 133.0
+    },
+    "Queens_Jamaica_Private room": {
+      "count": 71,
+      "median": 77.0
+    },
+    "Queens_Jamaica_Shared room": {
+      "count": 1,
+      "median": 37.0
+    },
+    "Queens_Jamaica Estates_Entire home/apt": {
+      "count": 5,
+      "median": 216.0
+    },
+    "Queens_Jamaica Estates_Private room": {
+      "count": 5,
+      "median": 55.0
+    },
+    "Queens_Jamaica Estates_Shared room": {
+      "count": 1,
+      "median": 106.0
+    },
+    "Queens_Jamaica Hills_Entire home/apt": {
+      "count": 3,
+      "median": 225.0
+    },
+    "Queens_Jamaica Hills_Private room": {
+      "count": 2,
+      "median": 103.5
+    },
+    "Queens_Kew Gardens_Entire home/apt": {
+      "count": 2,
+      "median": 171.0
+    },
+    "Queens_Kew Gardens_Private room": {
+      "count": 12,
+      "median": 55.0
+    },
+    "Queens_Kew Gardens Hills_Entire home/apt": {
+      "count": 8,
+      "median": 162.0
+    },
+    "Queens_Kew Gardens Hills_Private room": {
+      "count": 1,
+      "median": 86.0
+    },
+    "Queens_Laurelton_Entire home/apt": {
+      "count": 14,
+      "median": 123.5
+    },
+    "Queens_Laurelton_Private room": {
+      "count": 3,
+      "median": 77.0
+    },
+    "Queens_Little Neck_Private room": {
+      "count": 4,
+      "median": 75.0
+    },
+    "Queens_Long Island City_Entire home/apt": {
+      "count": 61,
+      "median": 165.0
+    },
+    "Queens_Long Island City_Private room": {
+      "count": 68,
+      "median": 94.5
+    },
+    "Queens_Maspeth_Entire home/apt": {
+      "count": 16,
+      "median": 155.0
+    },
+    "Queens_Maspeth_Private room": {
+      "count": 17,
+      "median": 76.0
+    },
+    "Queens_Middle Village_Entire home/apt": {
+      "count": 6,
+      "median": 159.0
+    },
+    "Queens_Middle Village_Private room": {
+      "count": 2,
+      "median": 119.0
+    },
+    "Queens_Neponsit_Entire home/apt": {
+      "count": 1,
+      "median": 351.0
+    },
+    "Queens_Ozone Park_Entire home/apt": {
+      "count": 18,
+      "median": 96.0
+    },
+    "Queens_Ozone Park_Private room": {
+      "count": 20,
+      "median": 48.0
+    },
+    "Queens_Queens Village_Entire home/apt": {
+      "count": 26,
+      "median": 115.0
+    },
+    "Queens_Queens Village_Private room": {
+      "count": 11,
+      "median": 76.0
+    },
+    "Queens_Rego Park_Entire home/apt": {
+      "count": 6,
+      "median": 134.0
+    },
+    "Queens_Rego Park_Private room": {
+      "count": 14,
+      "median": 68.0
+    },
+    "Queens_Richmond Hill_Entire home/apt": {
+      "count": 19,
+      "median": 119.0
+    },
+    "Queens_Richmond Hill_Private room": {
+      "count": 23,
+      "median": 57.0
+    },
+    "Queens_Ridgewood_Entire home/apt": {
+      "count": 49,
+      "median": 171.0
+    },
+    "Queens_Ridgewood_Private room": {
+      "count": 53,
+      "median": 82.0
+    },
+    "Queens_Rockaway Beach_Entire home/apt": {
+      "count": 26,
+      "median": 115.5
+    },
+    "Queens_Rockaway Beach_Private room": {
+      "count": 6,
+      "median": 70.0
+    },
+    "Queens_Rosedale_Entire home/apt": {
+      "count": 30,
+      "median": 141.0
+    },
+    "Queens_Rosedale_Private room": {
+      "count": 16,
+      "median": 88.5
+    },
+    "Queens_South Ozone Park_Entire home/apt": {
+      "count": 14,
+      "median": 185.5
+    },
+    "Queens_South Ozone Park_Private room": {
+      "count": 22,
+      "median": 116.0
+    },
+    "Queens_South Ozone Park_Shared room": {
+      "count": 1,
+      "median": 77.0
+    },
+    "Queens_Springfield Gardens_Entire home/apt": {
+      "count": 44,
+      "median": 170.0
+    },
+    "Queens_Springfield Gardens_Private room": {
+      "count": 21,
+      "median": 70.0
+    },
+    "Queens_St. Albans_Entire home/apt": {
+      "count": 32,
+      "median": 121.0
+    },
+    "Queens_St. Albans_Private room": {
+      "count": 47,
+      "median": 78.0
+    },
+    "Queens_Sunnyside_Entire home/apt": {
+      "count": 26,
+      "median": 112.0
+    },
+    "Queens_Sunnyside_Private room": {
+      "count": 50,
+      "median": 77.0
+    },
+    "Queens_Whitestone_Entire home/apt": {
+      "count": 5,
+      "median": 147.0
+    },
+    "Queens_Whitestone_Private room": {
+      "count": 4,
+      "median": 76.5
+    },
+    "Queens_Woodhaven_Entire home/apt": {
+      "count": 13,
+      "median": 99.0
+    },
+    "Queens_Woodhaven_Private room": {
+      "count": 26,
+      "median": 75.0
+    },
+    "Queens_Woodside_Entire home/apt": {
+      "count": 19,
+      "median": 105.0
+    },
+    "Queens_Woodside_Private room": {
+      "count": 45,
+      "median": 58.0
+    },
+    "Queens_Woodside_Shared room": {
+      "count": 1,
+      "median": 150.0
+    },
+    "Staten Island_Arden Heights_Entire home/apt": {
+      "count": 2,
+      "median": 97.0
+    },
+    "Staten Island_Arrochar_Entire home/apt": {
+      "count": 6,
+      "median": 112.0
+    },
+    "Staten Island_Bull's Head_Entire home/apt": {
+      "count": 3,
+      "median": 104.0
+    },
+    "Staten Island_Bull's Head_Private room": {
+      "count": 3,
+      "median": 94.0
+    },
+    "Staten Island_Castleton Corners_Entire home/apt": {
+      "count": 1,
+      "median": 203.0
+    },
+    "Staten Island_Clifton_Entire home/apt": {
+      "count": 3,
+      "median": 116.0
+    },
+    "Staten Island_Clifton_Private room": {
+      "count": 3,
+      "median": 69.0
+    },
+    "Staten Island_Concord_Entire home/apt": {
+      "count": 1,
+      "median": 299.0
+    },
+    "Staten Island_Concord_Private room": {
+      "count": 1,
+      "median": 78.0
+    },
+    "Staten Island_Dongan Hills_Entire home/apt": {
+      "count": 2,
+      "median": 168.0
+    },
+    "Staten Island_Eltingville_Private room": {
+      "count": 1,
+      "median": 75.0
+    },
+    "Staten Island_Emerson Hill_Entire home/apt": {
+      "count": 1,
+      "median": 120.0
+    },
+    "Staten Island_Graniteville_Entire home/apt": {
+      "count": 1,
+      "median": 144.0
+    },
+    "Staten Island_Graniteville_Private room": {
+      "count": 2,
+      "median": 93.0
+    },
+    "Staten Island_Grant City_Entire home/apt": {
+      "count": 4,
+      "median": 134.5
+    },
+    "Staten Island_Grant City_Private room": {
+      "count": 4,
+      "median": 47.5
+    },
+    "Staten Island_Great Kills_Entire home/apt": {
+      "count": 3,
+      "median": 95.0
+    },
+    "Staten Island_Grymes Hill_Entire home/apt": {
+      "count": 3,
+      "median": 295.0
+    },
+    "Staten Island_Howland Hook_Entire home/apt": {
+      "count": 1,
+      "median": 119.0
+    },
+    "Staten Island_Huguenot_Entire home/apt": {
+      "count": 1,
+      "median": 135.0
+    },
+    "Staten Island_Lighthouse Hill_Entire home/apt": {
+      "count": 1,
+      "median": 250.0
+    },
+    "Staten Island_Mariners Harbor_Entire home/apt": {
+      "count": 7,
+      "median": 93.0
+    },
+    "Staten Island_Mariners Harbor_Private room": {
+      "count": 9,
+      "median": 75.0
+    },
+    "Staten Island_Midland Beach_Entire home/apt": {
+      "count": 5,
+      "median": 150.0
+    },
+    "Staten Island_Midland Beach_Private room": {
+      "count": 2,
+      "median": 93.0
+    },
+    "Staten Island_New Brighton_Entire home/apt": {
+      "count": 1,
+      "median": 128.0
+    },
+    "Staten Island_New Brighton_Private room": {
+      "count": 5,
+      "median": 52.0
+    },
+    "Staten Island_New Dorp Beach_Private room": {
+      "count": 3,
+      "median": 65.0
+    },
+    "Staten Island_Port Richmond_Entire home/apt": {
+      "count": 2,
+      "median": 76.0
+    },
+    "Staten Island_Port Richmond_Private room": {
+      "count": 3,
+      "median": 43.0
+    },
+    "Staten Island_Prince's Bay_Entire home/apt": {
+      "count": 2,
+      "median": 141.0
+    },
+    "Staten Island_Randall Manor_Entire home/apt": {
+      "count": 4,
+      "median": 150.0
+    },
+    "Staten Island_Randall Manor_Private room": {
+      "count": 7,
+      "median": 80.0
+    },
+    "Staten Island_Rosebank_Entire home/apt": {
+      "count": 2,
+      "median": 97.5
+    },
+    "Staten Island_Rosebank_Private room": {
+      "count": 2,
+      "median": 106.5
+    },
+    "Staten Island_Shore Acres_Entire home/apt": {
+      "count": 4,
+      "median": 107.5
+    },
+    "Staten Island_Shore Acres_Private room": {
+      "count": 2,
+      "median": 77.5
+    },
+    "Staten Island_Silver Lake_Entire home/apt": {
+      "count": 1,
+      "median": 79.0
+    },
+    "Staten Island_Silver Lake_Private room": {
+      "count": 1,
+      "median": 89.0
+    },
+    "Staten Island_South Beach_Entire home/apt": {
+      "count": 4,
+      "median": 104.5
+    },
+    "Staten Island_South Beach_Private room": {
+      "count": 1,
+      "median": 62.0
+    },
+    "Staten Island_St. George_Entire home/apt": {
+      "count": 14,
+      "median": 170.5
+    },
+    "Staten Island_St. George_Private room": {
+      "count": 10,
+      "median": 90.0
+    },
+    "Staten Island_Stapleton_Entire home/apt": {
+      "count": 5,
+      "median": 121.0
+    },
+    "Staten Island_Stapleton_Private room": {
+      "count": 5,
+      "median": 80.0
+    },
+    "Staten Island_Tompkinsville_Entire home/apt": {
+      "count": 15,
+      "median": 118.0
+    },
+    "Staten Island_Tompkinsville_Private room": {
+      "count": 10,
+      "median": 66.0
+    },
+    "Staten Island_Tottenville_Entire home/apt": {
+      "count": 3,
+      "median": 92.0
+    },
+    "Staten Island_Tottenville_Private room": {
+      "count": 1,
+      "median": 105.0
+    },
+    "Staten Island_West Brighton_Entire home/apt": {
+      "count": 4,
+      "median": 74.0
+    },
+    "Staten Island_West Brighton_Private room": {
+      "count": 7,
+      "median": 58.0
+    },
+    "Staten Island_Willowbrook_Entire home/apt": {
+      "count": 1,
+      "median": 210.0
+    },
+    "Staten Island_Woodrow_Private room": {
+      "count": 1,
+      "median": 63.0
+    }
+  },
+  "citywide_room_medians": {
+    "Entire home/apt": 161.0,
+    "Hotel room": 188.5,
+    "Private room": 81.0,
+    "Shared room": 95.0
+  }
+}
