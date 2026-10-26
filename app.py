@@ -868,6 +868,7 @@ defaults = {
     'acc_warn_nonce': 0,
     'show_room_warning': False,
     'room_warn_nonce': 0,
+    'room_type_user_modified': False
 }
 
 for k, v in defaults.items():
@@ -937,6 +938,7 @@ def sync_url_params():
         'stay_category': st.session_state.stay_category,
         'min_nights': st.session_state.min_nights,
         'room_type': st.session_state.room_type,
+        'room_type_user_modified': st.session_state.get('room_type_user_modified', False)
     }
     draft_store[token] = state_to_save
 
@@ -1274,6 +1276,7 @@ if st.session_state.page == 'landing':
             """, unsafe_allow_html=True)
 
             st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+            # [수정 위치 3] 랜딩 페이지 시작 버튼 블록 전체 교체 (약 762~794행)
             _, pred_btn_col, _ = st.columns([0.8, 3.4, 0.8])
             with pred_btn_col:
                 if st.button(f"✨ {curr_boro_kr}의 내 숙소 가격 예측하기", key="btn_landing_predict", type="primary", width='stretch'):
@@ -1295,6 +1298,7 @@ if st.session_state.page == 'landing':
                     st.session_state.stay_category = "단기 숙박 (30일 미만)"
                     st.session_state.min_nights = 3
                     st.session_state.room_type = "Private room"
+                    st.session_state.room_type_user_modified = False  
                     st.session_state.accommodates = 1
                     st.session_state.bedrooms = 1
                     st.session_state.beds = 1
@@ -1305,6 +1309,15 @@ if st.session_state.page == 'landing':
                     st.session_state.step2_input_bath = 1.0
                     st.session_state.selected_amenities = {}
                     st.session_state.show_acc_warning = False
+                    st.session_state.show_room_warning = False        
+
+                    for w_key in [
+                        "step1_stay_cat", "step1_min_n", "step1_room_type",
+                        "confirm_stay_cat", "confirm_min_n", "confirm_room_type",
+                        "confirm_acc", "confirm_bed", "confirm_bds", "confirm_bath"
+                    ]:
+                        if w_key in st.session_state:
+                            del st.session_state[w_key]
                     st.session_state.page = 'borough_map'
                     sync_url_params()
                     st.rerun()
@@ -1926,7 +1939,6 @@ elif st.session_state.page == 'borough_map':
 # [PAGE 3] 숙소 상세 스펙 & 운영 정책 입력 페이지
 # ================================================
 
-# Step 1, Step 2, Step 3 모두 동일한 상단 높이·간격으로 통일
 elif st.session_state.page == 'detail_step':
     st.markdown("""
     <style>
@@ -1949,12 +1961,55 @@ elif st.session_state.page == 'detail_step':
     </style>
     """, unsafe_allow_html=True)
 
-    # Stepper 연동 : Step 1, 2는 '2. 숙소 정보 입력', Step 3은 '3. 최종 확인'
     current_stepper_stage = 2 if st.session_state.input_step in [0, 1] else 3
     render_stepper(current_stepper_stage)
 
     # ----------------------------------------------------------------------
-    # [Step 1] 숙소의 룸타입 및 운영 정책 입력
+    # [공통 콜백 함수] Step 3(정책 입력) & Step 5(최종 확인) 동기화 및 롤백/경고 방지
+    # ----------------------------------------------------------------------
+    def _apply_stay_category_change(chosen_stay_str, is_confirm_step=False):
+        was_short = "단기" in st.session_state.stay_category
+        now_short = "단기" in chosen_stay_str
+        if was_short == now_short:
+            return
+
+        st.session_state.stay_category = "단기 숙박 (30일 미만)" if now_short else "장기 숙박 (30일 이상)"
+
+        if not now_short:
+            # [단기 -> 장기 전환]
+            st.session_state.min_nights = 30
+            if not is_confirm_step and not st.session_state.get('room_type_user_modified', False):
+                st.session_state.room_type = "Entire home/apt"
+            st.session_state.show_acc_warning = False
+            st.session_state.show_room_warning = False
+        else:
+            # [장기 -> 단기 전환]
+            if st.session_state.min_nights >= 30:
+                st.session_state.min_nights = 3
+
+            if st.session_state.room_type == "Entire home/apt":
+                st.session_state.room_type = "Private room"
+                st.session_state.show_room_warning = True
+                st.session_state.room_warn_nonce = st.session_state.get('room_warn_nonce', 0) + 1
+            else:
+                st.session_state.show_room_warning = False
+
+            if st.session_state.accommodates > 2:
+                st.session_state.accommodates = 2
+                st.session_state.show_acc_warning = True
+                st.session_state.acc_warn_nonce = st.session_state.get('acc_warn_nonce', 0) + 1
+
+        st.session_state.step1_room_type = st.session_state.room_type
+        st.session_state.confirm_room_type = st.session_state.room_type
+        if now_short:
+            st.session_state.step1_min_n = min(29, max(1, int(st.session_state.min_nights)))
+            st.session_state.confirm_min_n = min(29, max(1, int(st.session_state.min_nights)))
+        st.session_state.step2_input_acc = int(st.session_state.accommodates)
+        st.session_state.confirm_acc = int(st.session_state.accommodates)
+        sync_url_params()
+
+    # ----------------------------------------------------------------------
+    # [Step 1 (화면 표기 Step 3)] 숙소의 룸타입 및 운영 정책 입력
     # ----------------------------------------------------------------------
     if st.session_state.input_step == 0:
         st.markdown("""
@@ -1968,10 +2023,31 @@ elif st.session_state.page == 'detail_step':
             </div>
         """, unsafe_allow_html=True)
 
+        stay_opts = ["단기 숙박 (30일 미만)", "장기 숙박 (30일 이상)"]
+        is_short = "단기" in st.session_state.stay_category
+        avail_rooms = ["Private room", "Shared room", "Hotel room"] if is_short else ["Entire home/apt", "Private room", "Shared room", "Hotel room"]
+
+        st.session_state.step1_stay_cat = stay_opts[0] if is_short else stay_opts[1]
+        if st.session_state.room_type not in avail_rooms:
+            st.session_state.room_type = avail_rooms[0]
+        st.session_state.step1_room_type = st.session_state.room_type
+        if is_short:
+            st.session_state.step1_min_n = min(29, max(1, int(st.session_state.min_nights)))
+
+        def on_step1_stay_change():
+            _apply_stay_category_change(st.session_state.step1_stay_cat, is_confirm_step=False)
+
+        def on_step1_min_n_change():
+            st.session_state.min_nights = int(st.session_state.step1_min_n)
+            sync_url_params()
+
+        def on_step1_room_change():
+            st.session_state.room_type = st.session_state.step1_room_type
+            st.session_state.room_type_user_modified = True
+            st.session_state.show_room_warning = False
+            sync_url_params()
+
         with st.container(border=True, key="step1_card"):
-            # 항목 헤더 + 호버 툴팁 가이드 배지
-            is_short = "단기" in st.session_state.stay_category
-            
             st.markdown("""
                 <div class="section-main-header">
                     <span class="section-main-title">🎯 호스팅 정책</span>
@@ -1997,50 +2073,28 @@ elif st.session_state.page == 'detail_step':
                 </div>
             """, unsafe_allow_html=True)
 
-            # 운영 방식 라디오 버튼
-            stay_opts = ["단기 숙박 (30일 미만)", "장기 숙박 (30일 이상)"]
-            s_idx = 0 if is_short else 1
-            chosen_stay = st.radio(
-                "운영 방식", 
-                stay_opts, 
-                index=s_idx, 
+            st.radio(
+                "운영 방식",
+                stay_opts,
                 horizontal=True,
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                key="step1_stay_cat",
+                on_change=on_step1_stay_change
             )
-
-            # 운영 방식 변경 시 동적 상태 업데이트
-            if ("단기" in chosen_stay) != is_short:
-                st.session_state.stay_category = "단기 숙박 (30일 미만)" if "단기" in chosen_stay else "장기 숙박 (30일 이상)"
-                if "장기" in chosen_stay:
-                    st.session_state.min_nights = 30
-                    st.session_state.room_type = "Entire home/apt"
-                else:
-                    if st.session_state.min_nights >= 30:
-                        st.session_state.min_nights = 3
-                    if st.session_state.room_type == "Entire home/apt":
-                        st.session_state.room_type = "Private room"
-                    if st.session_state.accommodates > 2:
-                        st.session_state.accommodates = 2
-                        st.session_state.step2_input_acc = 2
-                sync_url_params()
-                st.rerun()
 
             st.write("")
             st.markdown("<hr style='margin:14px 0 20px 0; border-color:rgba(255,255,255,0.08);'>", unsafe_allow_html=True)
 
-            # 세부 운영 조건 설정 헤더
             st.markdown("""
                 <div class="section-main-header">
                     <span class="section-main-title">🏠 세부 운영 조건</span>
                 </div>
             """, unsafe_allow_html=True)
-            
+
             col_p1, col_p2 = st.columns(2, gap="medium")
-            
+
             with col_p1:
-                if "단기" in st.session_state.stay_category:
-                    val_n = min(29, max(1, int(st.session_state.min_nights)))
-                    
+                if is_short:
                     st.markdown("""
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:6px;">
                             <span style="font-size:15.5px; font-weight:700; color:#F1F3F9;">📅 최소 숙박일 수 설정 (박)</span>
@@ -2052,13 +2106,15 @@ elif st.session_state.page == 'detail_step':
                             </div>
                         </div>
                     """, unsafe_allow_html=True)
-                    
-                    st.session_state.min_nights = st.slider(
-                        "최소 숙박일 수 설정", 
-                        1, 29, val_n,
-                        label_visibility="collapsed"
+
+                    st.slider(
+                        "최소 숙박일 수 설정",
+                        min_value=1,
+                        max_value=29,
+                        label_visibility="collapsed",
+                        key="step1_min_n",
+                        on_change=on_step1_min_n_change
                     )
-                    avail_rooms = ["Private room", "Shared room", "Hotel room"]
                 else:
                     st.session_state.min_nights = 30
                     st.markdown("""
@@ -2067,7 +2123,6 @@ elif st.session_state.page == 'detail_step':
                             <div style="color:#A0A4B8; font-size:12.5px;">뉴욕시 단기 임대 규정(Local Law 18)가 전면 면제되어 집 전체 대여 및 다인 수용이 합법입니다.</div>
                         </div>
                     """, unsafe_allow_html=True)
-                    avail_rooms = ["Entire home/apt", "Private room", "Shared room", "Hotel room"]
 
             with col_p2:
                 room_labels = {
@@ -2077,10 +2132,6 @@ elif st.session_state.page == 'detail_step':
                     "Hotel room": "호텔 / 부티크 숙소",
                 }
 
-                curr_r = st.session_state.room_type
-                r_idx = avail_rooms.index(curr_r) if curr_r in avail_rooms else 0
-
-                # 라벨 + 💡 Tip 호버 배지
                 st.markdown("""
                     <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:6px;">
                         <span style="font-size:15.5px; font-weight:700; color:#F1F3F9;">🚪 숙소 공간 유형</span>
@@ -2093,16 +2144,35 @@ elif st.session_state.page == 'detail_step':
                     </div>
                 """, unsafe_allow_html=True)
 
-                selected_display = st.selectbox(
+                st.selectbox(
                     "숙소 공간 유형",
                     avail_rooms,
-                    index=r_idx,
                     format_func=lambda x: room_labels.get(x, x),
-                    label_visibility="collapsed"
+                    label_visibility="collapsed",
+                    key="step1_room_type",
+                    on_change=on_step1_room_change
                 )
 
-                st.session_state.room_type = selected_display
-                sync_url_params()
+                if is_short and st.session_state.get('show_room_warning', False):
+                    r_nonce = st.session_state.get('room_warn_nonce', 0)
+                    st.markdown(f"""
+                        <div key="warn_room_step1_{r_nonce}" class="fade-warning-card" style="
+                            background: rgba(239, 68, 68, 0.12);
+                            border: 1px solid rgba(239, 68, 68, 0.4);
+                            border-left: 4px solid #EF4444;
+                            border-radius: 8px;
+                            padding: 8px 12px;
+                            margin-top: 10px;
+                            margin-bottom: 4px;
+                            font-size: 13px;
+                            color: #F87171;
+                            font-weight: 700;
+                            line-height: 1.4;
+                            word-break: keep-all;
+                        ">
+                            🚫 <b>뉴욕시 단기 임대 규정(Local Law 18)</b> : 단기 숙박은 집 전체 임대가 제한되어 <b>개인실</b>로 자동 변경되었습니다.
+                        </div>
+                    """, unsafe_allow_html=True)
 
         st.write("")
         c_l, _, c_r = st.columns([0.9, 3.2, 0.9])
@@ -2116,6 +2186,7 @@ elif st.session_state.page == 'detail_step':
 
         with c_r:
             if st.button("다음", type="primary", width='stretch'):
+                st.session_state.room_type_user_modified = True
                 st.session_state.show_acc_warning = False
                 st.session_state.show_room_warning = False
                 st.session_state.input_step = 1
@@ -2123,7 +2194,7 @@ elif st.session_state.page == 'detail_step':
                 st.rerun()
 
     # ----------------------------------------------------------------------
-    # [Step 2] 숙소의 스펙 정보 입력 (규모 · 구조 · 편의시설)
+    # [Step 2 (화면 표기 Step 4)] 숙소의 스펙 정보 입력 (규모 · 구조 · 편의시설)
     # ----------------------------------------------------------------------
     elif st.session_state.input_step == 1:
         st.session_state.step2_input_acc = int(st.session_state.accommodates)
@@ -2142,7 +2213,6 @@ elif st.session_state.page == 'detail_step':
             </div>
         """, unsafe_allow_html=True)
 
-        # 숙소 규모 섹션
         with st.container(border=True, key="step2_card_spec"):
             st.markdown("""
                 <div class="section-main-header" style="justify-content: flex-start; gap: 10px; margin-bottom: 14px;">
@@ -2156,13 +2226,11 @@ elif st.session_state.page == 'detail_step':
                 </div>
             """, unsafe_allow_html=True)
 
-            # 안전하게 세션값 조회 (AttributeError 원천 방지)
             curr_stay_cat = st.session_state.get('stay_category', "단기 숙박 (30일 미만)")
             is_short_stay = "단기" in curr_stay_cat
 
             c1, c2, c3, c4 = st.columns(4)
 
-            # [단기 2인 초과 감지 및 5초 리셋 콜백]
             def handle_acc_change():
                 val = st.session_state.get('step2_input_acc', 1)
                 is_short = "단기" in st.session_state.get('stay_category', '')
@@ -2177,17 +2245,15 @@ elif st.session_state.page == 'detail_step':
                         st.session_state.show_acc_warning = False
                 sync_url_params()
 
-            # 최대 수용 인원
             with c1:
                 st.number_input(
-                    "👥 최대 수용 인원 (명)", 
-                    min_value=1, 
-                    max_value=20, 
+                    "👥 최대 수용 인원 (명)",
+                    min_value=1,
+                    max_value=20,
                     key="step2_input_acc",
                     on_change=handle_acc_change
                 )
 
-                # 단기에서 2인을 초과하려 할 때 5초간 노출 (연타 시 nonce 갱신으로 시간 재충전)
                 if is_short_stay and st.session_state.get('show_acc_warning', False):
                     nonce = st.session_state.get('acc_warn_nonce', 0)
                     st.markdown(f"""
@@ -2215,26 +2281,23 @@ elif st.session_state.page == 'detail_step':
                 st.session_state.bathrooms = float(st.session_state.get('step2_input_bath', 1.0))
                 sync_url_params()
 
-            # [2] 침실 수
             with c2:
                 st.number_input(
-                    "🚪 침실 수 (개)", min_value=0, max_value=15, 
+                    "🚪 침실 수 (개)", min_value=0, max_value=15,
                     key="step2_input_bed",
                     on_change=handle_step2_spec_change
                 )
 
-            # [3] 침대 수
             with c3:
                 st.number_input(
-                    "🛏️ 침대 수 (개)", min_value=1, max_value=25, 
+                    "🛏️ 침대 수 (개)", min_value=1, max_value=25,
                     key="step2_input_bds",
                     on_change=handle_step2_spec_change
                 )
 
-            # [4] 욕실 수
             with c4:
                 st.number_input(
-                    "🚿 욕실 수 (개)", min_value=0.5, max_value=15.0, 
+                    "🚿 욕실 수 (개)", min_value=0.5, max_value=15.0,
                     step=0.5, key="step2_input_bath",
                     on_change=handle_step2_spec_change
                 )
@@ -2262,7 +2325,6 @@ elif st.session_state.page == 'detail_step':
 
         st.write("")
 
-        # 3. 편의시설 선택 섹션 (18.5px 헤더 + 우측 끝 💡 Tip 배지 + 15.5px 부헤더)
         with st.container(border=True, key="step2_card_amen"):
             st.markdown("""
                 <div class="section-main-header" style="justify-content: flex-start; gap: 10px; margin-bottom: 14px;">
@@ -2278,7 +2340,7 @@ elif st.session_state.page == 'detail_step':
 
             for grp_title, grp_info in AMENITY_GROUPS.items():
                 st.markdown(f'<div style="font-size:15.5px; font-weight:700; color:#F1F3F9; margin-top:6px; margin-bottom:10px;">{grp_title}</div>', unsafe_allow_html=True)
-                
+
                 items_dict = grp_info["items"]
                 cols = st.columns(3)
                 for idx, (k_eng, k_label) in enumerate(items_dict.items()):
@@ -2294,24 +2356,22 @@ elif st.session_state.page == 'detail_step':
         c_l, _, c_r = st.columns([0.9, 3.2, 0.9])
         with c_l:
             if st.button("⬅️ 이전", width='stretch'):
+                st.session_state.show_acc_warning = False
+                st.session_state.show_room_warning = False
                 st.session_state.input_step = 0
                 sync_url_params()
                 st.rerun()
         with c_r:
             if st.button("다음", type="primary", width='stretch'):
-                st.session_state.confirm_acc = int(st.session_state.accommodates)
-                st.session_state.confirm_bed = int(st.session_state.bedrooms)
-                st.session_state.confirm_bds = int(st.session_state.beds)
-                st.session_state.confirm_bath = float(st.session_state.bathrooms)
                 st.session_state.show_acc_warning = False
+                st.session_state.show_room_warning = False
                 st.session_state.input_step = 2
                 sync_url_params()
                 st.rerun()
 
     # ----------------------------------------------------------------------
-    # [Step 3] 입력 정보 확인 및 즉시 수정
+    # [Step 3 (화면 표기 Step 5)] 입력 정보 확인 및 즉시 수정
     # ----------------------------------------------------------------------
-
     elif st.session_state.input_step == 2:
         st.markdown("""
             <div class="guide-box">
@@ -2324,19 +2384,32 @@ elif st.session_state.page == 'detail_step':
             </div>
         """, unsafe_allow_html=True)
 
-        # Step 3 진입 시 세션값과 동기화
+        stay_opts = ["단기 숙박 (30일 미만)", "장기 숙박 (30일 이상)"]
+        is_short_confirm = "단기" in st.session_state.stay_category
+        avail_rooms = ["Private room", "Shared room", "Hotel room"] if is_short_confirm else ["Entire home/apt", "Private room", "Shared room", "Hotel room"]
+
+        st.session_state.confirm_stay_cat = stay_opts[0] if is_short_confirm else stay_opts[1]
+        if st.session_state.room_type not in avail_rooms:
+            st.session_state.room_type = avail_rooms[0]
+        st.session_state.confirm_room_type = st.session_state.room_type
+        if is_short_confirm:
+            st.session_state.confirm_min_n = min(29, max(1, int(st.session_state.min_nights)))
+
         st.session_state.confirm_acc = int(st.session_state.accommodates)
         st.session_state.confirm_bed = int(st.session_state.bedrooms)
         st.session_state.confirm_bds = int(st.session_state.beds)
         st.session_state.confirm_bath = float(st.session_state.bathrooms)
 
-        # [사이드바 즉시 연동용 콜백 함수들]
+        def handle_confirm_stay_change():
+            _apply_stay_category_change(st.session_state.confirm_stay_cat, is_confirm_step=True)
+
         def handle_confirm_min_n():
             st.session_state.min_nights = int(st.session_state.confirm_min_n)
             sync_url_params()
 
         def handle_confirm_room_type():
             st.session_state.room_type = st.session_state.confirm_room_type
+            st.session_state.room_type_user_modified = True
             st.session_state.show_room_warning = False
             sync_url_params()
 
@@ -2371,58 +2444,20 @@ elif st.session_state.page == 'detail_step':
 
         # 1. 호스팅 정책 및 룸타입 설정 카드
         with st.expander("💡 **호스팅 정책 및 룸타입**", expanded=True):
-            is_short_confirm = "단기" in st.session_state.stay_category
-            stay_opts = ["단기 숙박 (30일 미만)", "장기 숙박 (30일 이상)"]
-            s_idx = 0 if is_short_confirm else 1
-            chosen_stay = st.radio(
+            st.radio(
                 "운영 방식",
                 stay_opts,
-                index=s_idx,
                 horizontal=True,
                 label_visibility="collapsed",
-                key="confirm_stay_cat"
+                key="confirm_stay_cat",
+                on_change=handle_confirm_stay_change
             )
-
-            if ("단기" in chosen_stay) != is_short_confirm:
-                st.session_state.stay_category = "단기 숙박 (30일 미만)" if "단기" in chosen_stay else "장기 숙박 (30일 이상)"
-                if "장기" in chosen_stay:
-                    st.session_state.min_nights = 30
-                    # 단기 -> 장기 전환 시에는 기존에 선택한 숙소 공간 유형을 그대로 유지
-                    st.session_state.confirm_room_type = st.session_state.room_type
-                    st.session_state.show_acc_warning = False
-                    st.session_state.show_room_warning = False
-                else:
-                    if st.session_state.min_nights >= 30:
-                        st.session_state.min_nights = 3
-                        st.session_state.confirm_min_n = 3
-
-                    # 장기 -> 단기 전환 시: '집 전체'였을 때만 '개인실'로 바꾸고 5초 경고창 활성화
-                    if st.session_state.room_type == "Entire home/apt":
-                        st.session_state.room_type = "Private room"
-                        st.session_state.confirm_room_type = "Private room"
-                        st.session_state.show_room_warning = True
-                        st.session_state.room_warn_nonce = st.session_state.get('room_warn_nonce', 0) + 1
-                    else:
-                        # 개인실, 다인실, 호텔 등은 리셋하지 않고 그대로 유지
-                        st.session_state.confirm_room_type = st.session_state.room_type
-                        st.session_state.show_room_warning = False
-
-                    # 수용 인원이 2인을 초과한 상태였다면 2인으로 맞추면서 인원 경고창도 함께 표시
-                    if st.session_state.accommodates > 2:
-                        st.session_state.accommodates = 2
-                        st.session_state.step2_input_acc = 2
-                        st.session_state.confirm_acc = 2
-                        st.session_state.show_acc_warning = True
-                        st.session_state.acc_warn_nonce = st.session_state.get('acc_warn_nonce', 0) + 1
-                sync_url_params()
-                st.rerun()
 
             st.markdown("<hr style='margin:10px 0 14px 0; border-color:rgba(255,255,255,0.08);'>", unsafe_allow_html=True)
 
             col_p1, col_p2 = st.columns(2, gap="medium")
             with col_p1:
-                if "단기" in st.session_state.stay_category:
-                    val_n = min(29, max(1, int(st.session_state.min_nights)))
+                if is_short_confirm:
                     st.markdown("""
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:6px;">
                             <span style="font-size:15.5px; font-weight:700; color:#F1F3F9;">📅 최소 숙박일 수 설정 (박)</span>
@@ -2436,12 +2471,12 @@ elif st.session_state.page == 'detail_step':
                     """, unsafe_allow_html=True)
                     st.slider(
                         "최소 숙박일 수 설정",
-                        1, 29, val_n,
+                        min_value=1,
+                        max_value=29,
                         label_visibility="collapsed",
                         key="confirm_min_n",
                         on_change=handle_confirm_min_n
                     )
-                    avail_rooms = ["Private room", "Shared room", "Hotel room"]
                 else:
                     st.session_state.min_nights = 30
                     st.markdown("""
@@ -2450,7 +2485,6 @@ elif st.session_state.page == 'detail_step':
                             <div style="color:#A0A4B8; font-size:12.5px;">뉴욕시 단기 임대 규정(Local Law 18)가 전면 면제되어 집 전체 대여 및 다인 수용이 합법입니다.</div>
                         </div>
                     """, unsafe_allow_html=True)
-                    avail_rooms = ["Entire home/apt", "Private room", "Shared room", "Hotel room"]
 
             with col_p2:
                 room_labels = {
@@ -2459,8 +2493,6 @@ elif st.session_state.page == 'detail_step':
                     "Shared room": "다인실",
                     "Hotel room": "호텔 / 부티크 숙소",
                 }
-                curr_r = st.session_state.room_type
-                r_idx = avail_rooms.index(curr_r) if curr_r in avail_rooms else 0
 
                 st.markdown("""
                     <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:6px;">
@@ -2477,14 +2509,12 @@ elif st.session_state.page == 'detail_step':
                 st.selectbox(
                     "숙소 공간 유형",
                     avail_rooms,
-                    index=r_idx,
                     format_func=lambda x: room_labels.get(x, x),
                     label_visibility="collapsed",
                     key="confirm_room_type",
                     on_change=handle_confirm_room_type
                 )
 
-                # 장기(집 전체) -> 단기 전환 시 5초간 노출 후 사라지는 경고창
                 if is_short_confirm and st.session_state.get('show_room_warning', False):
                     r_nonce = st.session_state.get('room_warn_nonce', 0)
                     st.markdown(f"""
@@ -2593,9 +2623,9 @@ elif st.session_state.page == 'detail_step':
                 for idx, (k_eng, k_label) in enumerate(items_dict.items()):
                     with cols[idx % 3]:
                         curr_bool = st.session_state.selected_amenities.get(k_eng, False)
+                        st.session_state[f"confirm_amen_{k_eng}"] = curr_bool
                         st.checkbox(
                             k_label,
-                            value=curr_bool,
                             key=f"confirm_amen_{k_eng}",
                             on_change=handle_confirm_amen_change,
                             args=(k_eng,)
@@ -2606,11 +2636,8 @@ elif st.session_state.page == 'detail_step':
         c_l, _, c_r = st.columns([0.9, 3.2, 0.9])
         with c_l:
             if st.button("⬅️ 이전", width='stretch'):
-                st.session_state.step2_input_acc = int(st.session_state.accommodates)
-                st.session_state.step2_input_bed = int(st.session_state.bedrooms)
-                st.session_state.step2_input_bds = int(st.session_state.beds)
-                st.session_state.step2_input_bath = float(st.session_state.bathrooms)
                 st.session_state.show_acc_warning = False
+                st.session_state.show_room_warning = False
                 st.session_state.input_step = 1
                 sync_url_params()
                 st.rerun()
@@ -2620,6 +2647,7 @@ elif st.session_state.page == 'detail_step':
                 st.session_state.page = 'prediction_page'
                 sync_url_params()
                 st.rerun()
+                        
 
 # ===========
 # AI 설정
@@ -3937,13 +3965,22 @@ if st.session_state.page == 'prediction_page':
             st.session_state.stay_category = "단기 숙박 (30일 미만)"
             st.session_state.min_nights = 3
             st.session_state.room_type = "Private room"
+            st.session_state.room_type_user_modified = False
             st.session_state.accommodates = 1
             st.session_state.bedrooms = 1
             st.session_state.beds = 1
             st.session_state.bathrooms = 1.0
             st.session_state.selected_amenities = {}
             st.session_state.show_acc_warning = False
-            for w_key in ["confirm_acc", "confirm_bed", "confirm_bds", "confirm_bath", "sim_calc_price", "sim_calc_days", "sim_calc_expense"]:
+            st.session_state.show_room_warning = False      
+
+            for w_key in [
+                "step1_stay_cat", "step1_min_n", "step1_room_type",
+                "step2_input_acc", "step2_input_bed", "step2_input_bds", "step2_input_bath",
+                "confirm_stay_cat", "confirm_min_n", "confirm_room_type",
+                "confirm_acc", "confirm_bed", "confirm_bds", "confirm_bath",
+                "sim_calc_price", "sim_calc_days", "sim_calc_expense"
+            ]:
                 if w_key in st.session_state:
                     del st.session_state[w_key]
             st.session_state.page = 'borough_map'
