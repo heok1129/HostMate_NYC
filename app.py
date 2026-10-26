@@ -1317,8 +1317,8 @@ elif st.session_state.page == 'borough_map':
     render_stepper(1)
 
     # 지도 사이즈
-    STAGE1_MAP_HEIGHT = 980
-    STAGE2_MAP_HEIGHT = 980
+    STAGE1_MAP_HEIGHT = 970
+    STAGE2_MAP_HEIGHT = 970
 
     borough_data = {
         "Manhattan": {"color": "#60A5FA", "kr": "맨해튼", "center": [40.7831, -73.9650], "zoom": 12},
