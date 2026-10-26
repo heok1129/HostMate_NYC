@@ -1306,8 +1306,8 @@ elif st.session_state.page == 'borough_map':
     render_stepper(1)
 
     # 1단계(자치구) 및 2단계(세부 동네) 지도 고정 높이(px)
-    STAGE1_MAP_HEIGHT = 950  
-    STAGE2_MAP_HEIGHT = 950
+    STAGE1_MAP_HEIGHT = 920  
+    STAGE2_MAP_HEIGHT = 920
 
     borough_data = {
         "Manhattan": {"color": "#60A5FA", "kr": "맨해튼", "center": [40.7831, -73.9650], "zoom": 12},
