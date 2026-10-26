@@ -1336,7 +1336,7 @@ elif st.session_state.page == 'borough_map':
     if not is_hood_selected:
         guide_title = "Step 1. 숙소가 위치한 세부 동네를 지도에서 선택해 주세요."
     else:
-        guide_title = "Step 2. 숙소가 위치한 상세 위치를 지도에서 클릭해 주세요."
+        guide_title = "Step 2. 숙소의 상세 위치를 지도에서 클릭해 주세요."
 
     st.markdown(f"""
         <div class="guide-box">
