@@ -32,6 +32,15 @@ st.set_page_config(
     layout="wide"
 )
 
+# 우측 상단 햄버거 메뉴 숨기기
+hide_menu_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 @st.cache_data
 def get_base64_encoded_image(target_path):
     with open(target_path, "rb") as f:
