@@ -695,17 +695,23 @@ def get_neighborhood_center(hood_name, borough_name):
     return BOROUGH_CENTERS.get(borough_name, TIMES_SQUARE_COORDS)
 
 @st.cache_data(show_spinner=False, ttl=3600, max_entries=100)
+def _fetch_nominatim_address(lat, lon):
+    """성공한 실제 도로명 주소만 캐싱하도록 분리한 내부 함수"""
+    geolocator = Nominatim(user_agent=f"hostmate_nyc_app_{uuid.uuid4().hex[:6]}", timeout=5.0)
+    location = geolocator.reverse((lat, lon), language="en")
+    if location and location.address:
+        return location.address
+    raise ValueError("Address not found")
+
 def get_address_from_coords(lat, lon, hood_name="", borough_name=""):
     # 캐시 적중률 향상 및 미세 떨림 방지를 위해 소수점 4자리로 통일
     lat, lon = round(lat, 4), round(lon, 4)
     try:
-        geolocator = Nominatim(user_agent="hostmate_nyc_airbnb_app_v2", timeout=1.5)
-        location = geolocator.reverse((lat, lon), language="en")
-        if location and location.address:
-            return location.address
+        return _fetch_nominatim_address(lat, lon)
     except Exception:
         pass
-    return f"{hood_name}, {borough_name}, New York, NY ({lat:.4f}, {lon:.4f})"
+    # 폴백 시에도 위경도 괄호 없이 깔끔한 지역 주소만 표기
+    return f"{hood_name}, {borough_name}, New York, NY"
 
 def calculate_haversine_distance(lat1, lon1):
     """맨해튼 타임스퀘어 기준 하버사인 직선거리(km) 산출"""
