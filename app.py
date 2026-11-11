@@ -14,6 +14,7 @@ import urllib.request
 import urllib.error
 from catboost import CatBoostRegressor
 import time
+from geopy.geocoders import Nominatim, ArcGIS
 
 
 # 로컬 .env 파일이 존재할 경우 환경변수로 자동 로드
@@ -694,24 +695,47 @@ def get_neighborhood_center(hood_name, borough_name):
         return [float(row['mean_lat'].iloc[0]), float(row['mean_lon'].iloc[0])]
     return BOROUGH_CENTERS.get(borough_name, TIMES_SQUARE_COORDS)
 
-@st.cache_data(show_spinner=False, ttl=3600, max_entries=100)
-def _fetch_nominatim_address(lat, lon):
-    """성공한 실제 도로명 주소만 캐싱하도록 분리한 내부 함수"""
-    geolocator = Nominatim(user_agent=f"hostmate_nyc_app_{uuid.uuid4().hex[:6]}", timeout=5.0)
-    location = geolocator.reverse((lat, lon), language="en")
-    if location and location.address:
-        return location.address
-    raise ValueError("Address not found")
+@st.cache_data(show_spinner=False, ttl=3600, max_entries=200)
+def _fetch_verified_address(lat, lon, hood_name="", borough_name=""):
+    """1차 Nominatim 시도 후 클라우드 IP 차단 시 2차 ArcGIS로 상세 도로명 주소를 가져오는 함수"""
+    # 1차: OpenStreetMap Nominatim 조회
+    try:
+        geolocator = Nominatim(
+            user_agent="HostMate_NYC_Airbnb_Analytics/2.0 (contact: hostmate.nyc.app@gmail.com)",
+            timeout=3.0
+        )
+        location = geolocator.reverse((lat, lon), language="en", exactly_one=True)
+        if location and location.address:
+            return location.address
+    except Exception:
+        pass
+
+    # 2차: Streamlit Cloud 공용 IP 차단 시 ArcGIS 지오코더로 상세 번지수/도로명 조회
+    try:
+        arcgis_locator = ArcGIS(timeout=4.0)
+        location = arcgis_locator.reverse((lat, lon))
+        if location and location.address:
+            addr = location.address
+            # 도로명 주소에 동네/자치구명이 빠져 있으면 자연스럽게 보완
+            if hood_name and hood_name.lower() not in addr.lower():
+                parts = addr.split(",", 1)
+                if len(parts) == 2:
+                    addr = f"{parts[0].strip()}, {hood_name}, {borough_name}, {parts[1].strip()}"
+            return addr
+    except Exception:
+        pass
+
+    # 1, 2차 모두 네트워크 단절일 때만 에러를 발생시켜 실패 결과가 캐싱되지 않도록 방지
+    raise RuntimeError("Reverse geocoding failed")
+
 
 def get_address_from_coords(lat, lon, hood_name="", borough_name=""):
     # 캐시 적중률 향상 및 미세 떨림 방지를 위해 소수점 4자리로 통일
     lat, lon = round(lat, 4), round(lon, 4)
     try:
-        return _fetch_nominatim_address(lat, lon)
+        return _fetch_verified_address(lat, lon, hood_name, borough_name)
     except Exception:
-        pass
-    # 폴백 시에도 위경도 괄호 없이 깔끔한 지역 주소만 표기
-    return f"{hood_name}, {borough_name}, New York, NY"
+        return f"{hood_name}, {borough_name}, New York, NY"
 
 def calculate_haversine_distance(lat1, lon1):
     """맨해튼 타임스퀘어 기준 하버사인 직선거리(km) 산출"""
