@@ -13,6 +13,7 @@ import uuid
 import urllib.request
 import urllib.error
 from catboost import CatBoostRegressor
+import time
 
 
 # 로컬 .env 파일이 존재할 경우 환경변수로 자동 로드
@@ -2702,54 +2703,66 @@ def _format_bullets_to_html(text):
   html_out.append("</ul>")
   return "".join(html_out)
 
+import time
 
 @st.cache_data(show_spinner=False, ttl=3600)
-def _call_ollama_consulting_api(prompt_text, api_key):
-    """Ollama Cloud의 gemma4:31b-cloud 모델을 호출하고 JSON을 안전하게 파싱하는 함수"""
+def _call_gemini_consulting_api(prompt_text, api_key):
+    """Google AI Studio의 gemma-4-31b-it 단일 모델을 가장 안전한 페이로드로 호출하는 함수"""
     clean_key = str(api_key).strip().strip('"').strip("'")
     if not clean_key:
-        raise ValueError("유효하지 않은 Ollama API Key입니다.")
+        raise ValueError("유효하지 않은 GEMINI_API_KEY입니다.")
 
-    url = "https://ollama.com/api/chat"
+    model_name = "gemma-4-31b-it"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={clean_key}"
+
+    # Gemma 4에서 HTTP 500을 유발하는 systemInstruction 필드를 쓰지 않고 단일 텍스트로 병합
     system_msg = (
         "You are an elite NYC Airbnb Superhost & Revenue Consultant. "
         "Respond ONLY with a valid JSON object without markdown code blocks. "
-        "Use <br> and <b> for HTML formatting inside JSON string values."
+        "Use <br> and <b> for HTML formatting inside JSON string values.\n\n"
     )
+    full_prompt = system_msg + prompt_text
 
-    candidate_models = ["gemma4:31b-cloud", "gemma4:31b"]
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": full_prompt}]
+            }
+        ],
+        "generationConfig": {
+            "temperature": 0.2,
+            "thinkingConfig": {
+                "thinkingLevel": "MINIMAL"
+            }
+        }
+    }
+
+    max_retries = 4
     last_err = None
 
-    for model_name in candidate_models:
-        payload = {
-            "model": model_name,
-            "messages": [
-                {"role": "system", "content": system_msg},
-                {"role": "user", "content": prompt_text},
-            ],
-            "format": "json",
-            "stream": False,
-            "options": {"temperature": 0.2},
-        }
-
+    for attempt in range(max_retries):
         req = urllib.request.Request(
             url,
             data=json.dumps(payload).encode("utf-8"),
-            headers={
-                "Content-Type": "application/json; charset=utf-8",
-                "Authorization": f"Bearer {clean_key}",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) HostMateNYC/1.0"
-            },
+            headers={"Content-Type": "application/json; charset=utf-8"},
             method="POST"
         )
 
         try:
-            with urllib.request.urlopen(req, timeout=25) as resp:
+            with urllib.request.urlopen(req, timeout=60) as resp:
                 res_data = json.loads(resp.read().decode("utf-8"))
-                raw_txt = res_data.get("message", {}).get("content", "").strip()
+                parts = res_data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
+                
+                # 내부 추론(thought: True) 파트를 제외하고 순수 응답 텍스트만 결합
+                raw_txt = "".join(
+                    p.get("text", "") for p in parts if not p.get("thought", False)
+                ).strip()
+                if not raw_txt and parts:
+                    raw_txt = parts[-1].get("text", "").strip()
 
-                # 추론(<think>...</think>) 블록 및 마크다운 코드블록 제거 후 순수 JSON 추출
                 raw_txt = re.sub(r'<think>.*?</think>', '', raw_txt, flags=re.DOTALL).strip()
+                raw_txt = re.sub(r'^```json\s*|```\s*$', '', raw_txt, flags=re.MULTILINE).strip()
                 json_match = re.search(r'\{.*\}', raw_txt, re.DOTALL)
                 if not json_match:
                     raise ValueError(f"JSON 객체를 찾을 수 없습니다: {raw_txt[:100]}")
@@ -2763,15 +2776,25 @@ def _call_ollama_consulting_api(prompt_text, api_key):
                     parsed["engine"] = "HostMate AI Engine"
                     return parsed
                 raise ValueError(f"필수 JSON 키 누락: {list(parsed.keys())}")
+
         except urllib.error.HTTPError as he:
             err_msg = he.read().decode("utf-8", errors="ignore")
-            last_err = f"Ollama HTTP {he.code} ({model_name}): {err_msg}"
-            continue
+            last_err = f"Google AI Studio HTTP {he.code} ({model_name}): {err_msg}"
+            # 500(내부 서버 스파이크), 502, 503(과부하), 429(요청 몰림) 모두 대기 후 자동 재시도
+            if he.code in (500, 502, 503, 504, 429) and attempt < max_retries - 1:
+                wait_sec = (attempt + 1) * 3  # 3초, 6초, 9초 간격으로 재요청
+                print(f"⏳ [HostMate] 구글 서버 일시 오류({he.code})로 {wait_sec}초 후 재시도합니다... ({attempt + 1}/{max_retries - 1})")
+                time.sleep(wait_sec)
+                continue
+            break
         except Exception as e:
-            last_err = e
-            continue
+            last_err = f"{model_name} 오류: {e}"
+            if attempt < max_retries - 1:
+                time.sleep(3)
+                continue
+            break
 
-    raise RuntimeError(f"Ollama Cloud API 호출 실패: {last_err}")
+    raise RuntimeError(f"Google AI Studio API 호출 실패: {last_err}")
 
 def generate_ai_host_consulting(
     boro, hood, rtype_kr, stay_cat, min_n, dist_km,
@@ -2814,19 +2837,19 @@ def generate_ai_host_consulting(
                     "listing_desc_en": "실제 에어비앤비 About this space에 바로 복사해 쓸 수 있는 영문 숙소 소개글 (4~5문장, 단일 문자열)"
                 }}"""
 
-    # OLLAMA_API_KEY 탐색
-    ollama_key = os.environ.get("OLLAMA_API_KEY", "")
+    # GEMINI_API_KEY 탐색
+    gemini_key = os.environ.get("GEMINI_API_KEY", "")
     try:
-        if not ollama_key and "OLLAMA_API_KEY" in st.secrets:
-            ollama_key = st.secrets["OLLAMA_API_KEY"]
+        if not gemini_key and "GEMINI_API_KEY" in st.secrets:
+            gemini_key = st.secrets["GEMINI_API_KEY"]
     except Exception:
         pass
 
-    if ollama_key:
+    if gemini_key:
         try:
-            return _call_ollama_consulting_api(prompt, ollama_key)
+            return _call_gemini_consulting_api(prompt, gemini_key)
         except Exception as e:
-            print(f"⚠️ [HostMate] Ollama Cloud API 호출 실패 (내장 엔진 폴백 전환): {e}")
+            print(f"⚠️ [HostMate] Google AI Studio API 호출 실패 (내장 엔진 폴백 전환): {e}")
 
     if gain_svc > 0:
         priority_fb = (
