@@ -2763,7 +2763,7 @@ def _call_gemini_consulting_api(prompt_text, api_key):
         "generationConfig": {
             "temperature": 0.2,
             "thinkingConfig": {
-                "thinkingLevel": "MINIMAL"
+                "thinkingLevel": "MEDIUM"
             }
         }
     }
