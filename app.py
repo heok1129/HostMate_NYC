@@ -2742,7 +2742,7 @@ def _call_gemini_consulting_api(prompt_text, api_key):
     if not clean_key:
         raise ValueError("유효하지 않은 GEMINI_API_KEY입니다.")
 
-    model_name = "gemma-4-31b-it"
+    model_name = "gemini-3.5-flash-lite"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={clean_key}"
 
     # Gemma 4에서 HTTP 500을 유발하는 systemInstruction 필드를 쓰지 않고 단일 텍스트로 병합
